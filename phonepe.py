@@ -300,11 +300,12 @@ if A=='AGGREGATION' and B=='TRANSACTION':
         st.subheader(e)
         st.bar_chart(chart2,x='transaction_type',y='transaction_amount')
     if d=='TOTAL':
-        var=text('select * from agg_tran')
+        a=st.sidebar.selectbox('PLEASE SELECT A YEAR',('2018','2019','2020','2021','2022','2023'))
+        var=text(f'select * from agg_tran where year={a}')
         result=con.execute(var)
         chart1=(pd.DataFrame(result,columns=['index','state','year','quater','transaction_type','transaction_count','transaction_amount']))
         file=px.sunburst(chart1,path=['year','quater','transaction_type','state'],values='transaction_amount',color='state')
-        st.subheader('TOTAL DATA OF TRANSACTIONS')
+        st.subheader(f'TOTAL DATA OF TRANSACTIONS IN YEAR {a}')
         st.plotly_chart(file)
         st.bar_chart(chart1,x='state',y='transaction_amount')
     
@@ -323,11 +324,12 @@ if A=='AGGREGATION' and B=='USER':
         st.bar_chart(chart4,x='mobile',y='count')
 
     if d1=='TOTAL DATA':
-        var3=text('select * from agg_user')
+        f=st.sidebar.selectbox('PLEASE SELECT A YEAR',('2018','2019','2020','2021','2022','2023'))
+        var3=text(f'select * from agg_user where year={f}')
         result3=con.execute(var3)
         chart3=(pd.DataFrame(result3,columns=['index','state','year','mobile','count','percentage','response','quater']))
         file3=px.sunburst(chart3,path=['year','quater','state','mobile'],values='count',color='state')
-        st.subheader('TOTAL USERS DATA')
+        st.subheader(f'TOTAL USERS DATA IN YEAR {f}')
         st.plotly_chart(file3)
         st.bar_chart(chart3,x='state',y='count')
   
@@ -391,11 +393,12 @@ if A=='TOP' and B=='TRANSACTION':
             st.subheader(e)
             st.bar_chart(chart6,x='district_name',y='district_count')
         if s=='TOTAL':
-            var7=text('select * from top_tran_dist')
+            r=st.sidebar.selectbox('PLEASE SELECT A YEAR',('2018','2019','2020','2021','2022','2023'))
+            var7=text(f'select * from top_tran_dist where Year={r}')
             result7=con.execute(var7)
             chart7=(pd.DataFrame(result7,columns=['index','state','year','quater','states','district_name','district_count','district_amount']))
             file7=px.sunburst(chart7,path=['year','quater','state','district_name'],values='district_count',color='state')
-            st.subheader('TOP STATES AND THEIR DISTRICTS WITH HIGH TRANSACTIONS DATA')
+            st.subheader(f'TOP STATES AND THEIR DISTRICTS WITH HIGH TRANSACTIONS DATA\n {r}')
             st.plotly_chart(file7)
             st.bar_chart(chart7,x='state',y='district_amount')
 
@@ -412,11 +415,12 @@ if A=='TOP' and B=='TRANSACTION':
             st.subheader(P5)
             st.bar_chart(chart8,x='pincode',y='pincode_count')
         if P4=='TOTAL DATA':
-            var9=text('select * from top_tran_pin')
+            p2=st.sidebar.selectbox('PLEASE SELECT A YEAR',('2018','2019','2020','2021','2022','2023'))
+            var9=text(f'select * from top_tran_pin where Year={p2}')
             result9=con.execute(var9)
             chart9=(pd.DataFrame(result9,columns=['index','state','year','quater','states','pincode','pincode_count','pincode_amount']))
             file9=px.sunburst(chart9,path=['year','quater','state'],values='pincode_count',color='state')
-            st.subheader('TOP STATES WITH HIGH TRANSACTIONS DATA')
+            st.subheader(f'TOP STATES WITH HIGH TRANSACTIONS DATA\n {p2}')
             st.plotly_chart(file9)
             st.bar_chart(chart9,x='state',y='pincode_count')
 
@@ -434,11 +438,12 @@ if A=='TOP' and B=='USER':
             st.subheader(p10)
             st.bar_chart(chart11,x='district_name',y='users')
         if p9=='TOTAL DATA':
-            var12=text('select * from top_user_district')
+            p7=st.sidebar.selectbox('PLEASE SELECT A YEAR',('2018','2019','2020','2021','2022','2023'))
+            var12=text(f'select * from top_user_district where Year={p7}')
             result12=con.execute(var12)
             chart12=(pd.DataFrame(result12,columns=['index','state','year','quater','states','district_name','users']))
             file12=px.sunburst(chart12,path=['year','quater','state','district_name'],values='users',color='state')
-            st.subheader('TOP STATES AND THEIR DISTRICTS WITH HIGH USERS DATA')
+            st.subheader(f'TOP STATES AND THEIR DISTRICTS WITH HIGH USERS DATA\n {p7}')
             st.plotly_chart(file12)
             st.bar_chart(chart12,x='state',y='users')
 
@@ -455,11 +460,12 @@ if A=='TOP' and B=='USER':
             st.subheader(p10)
             st.bar_chart(chart13,x='pincode',y='users')
         if p13=='TOTAL DATA':
-            var14=text('select * from top_user_district')
+            p7=st.sidebar.selectbox('PLEASE SELECT A YEAR',('2018','2019','2020','2021','2022','2023'))
+            var14=text(f'select * from top_user_district where Year={p7}')
             result14=con.execute(var14)
             chart14=(pd.DataFrame(result14,columns=['index','state','year','quater','states','pincode','users']))
             file14=px.sunburst(chart14,path=['year','quater','state','pincode'],values='users',color='state')
-            st.subheader('TOP STATES AND THEIR PINCODES WITH HIGH USERS DATA')
+            st.subheader(f'TOP STATES AND THEIR PINCODES WITH HIGH USERS DATA\n {p7}')
             st.plotly_chart(file14)
             st.bar_chart(chart14,x='state',y='users')
         
