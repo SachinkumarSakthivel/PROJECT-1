@@ -1,0 +1,81 @@
+SELECT * FROM customers;
+select count(salesRepEmployeeNumber) from customers;
+SELECT DISTINCT(customerNumber) FROM customers;
+DESCRIBE customers;
+update customers set customerName=concat(contactLastName,contactFirstName);
+alter table customers RENAME column customers.contactLastName to customerLastName; 
+select DISTINCT(phone) from customers;
+alter table customers drop column address;
+alter table customers drop column addressLine2;
+alter TABLE customers rename column 'addressLine1' to 'address';
+select * from employees;
+select count(*) from employees,customers where employees.employeeNumber=customers.salesRepEmployeeNumber;
+select * from offices;
+select * from employees,offices where employees.officeCode=offices.officeCode;
+select * from employees,offices where offices.officeCode='1' and employees.officeCode=offices.officeCode;
+select * from orderdetails;
+select orderNumber,quantityOrdered,priceEach,orderLineNumber,productCode, rank() over (PARTITION by productCode order by quantityOrdered desc) as rank from orderdetails;
+DESCRIBE orderdetails;
+DESCRIBE orders;
+select * from orders;
+select * from payments;
+DESCRIBE payments;
+select * from productlines;
+DESCRIBE productlines;
+SELECT * from products;
+describe products;
+select * from warehouses;
+DESCRIBE warehouses;
+DESCRIBE customers;
+DESCRIBE employees;
+DESCRIBE offices;
+DESCRIBE orderdetails;
+DESCRIBE orders;
+DESCRIBE payments;
+DESCRIBE productlines;
+DESCRIBE products;
+DESCRIBE warehouses;
+select * from customers,employees,offices,orderdetails,orders,payments,productlines,products,warehouses where customers.salesRepEmployeeNumber=employees.employeeNumber and 
+employees.officeCode=offices.officeCode and
+customers.customerNumber=orders.customerNumber and
+orders.orderNumber=orderdetails.orderNumber and orderdetails.productCode=products.productCode and products.productLine=productlines.productLine and 
+customers.customerNumber=payments.customerNumber and 
+products.warehouseCode=warehouses.warehouseCode
+
+/*BY ANALYZING THE MINTCLASSICS DATA THE CUSTOMER WITH MAXIMUM PURCHASE WHERE DECODED AND RETRIEVED THROUGH OUT THE FOLLOWING QUERY*/
+
+select *, max(cpr) from (select customers.customerName,customers.customerNumber,count(products.productCode) as cpr from customers,orders,orderdetails,productlines,products where 
+customers.customerNumber=orders.customerNumber and
+orders.orderNumber=orderdetails.orderNumber and 
+orderdetails.productCode=products.productCode and
+products.productLine=productlines.productLine group by customers.customerNumber) a order BY cpr desc;
+
+/* THE TOTAL PURCHASE OF EVERY CUSTOMER IS */
+
+select * from (select customers.customerName,customers.customerNumber,count(products.productCode) as cpr from customers,orders,orderdetails,productlines,products where 
+customers.customerNumber=orders.customerNumber and
+orders.orderNumber=orderdetails.orderNumber and 
+orderdetails.productCode=products.productCode and
+products.productLine=productlines.productLine group by customers.customerNumber) a order BY cpr desc;
+
+/* CUSTOMER WITH LEAST PURCHASE */
+
+select *, MIN(cpr) from (select customers.customerName,customers.customerNumber,count(products.productCode) as cpr from customers,orders,orderdetails,productlines,products where 
+customers.customerNumber=orders.customerNumber and
+orders.orderNumber=orderdetails.orderNumber and 
+orderdetails.productCode=products.productCode and
+products.productLine=productlines.productLine group by customers.customerNumber) a order BY cpr desc;
+
+/* LIST OF PRODUCTS AND THE CUSTOMERS WHO BOUGHT THEM */
+select products.productName,customers.customerName,customers.customerNumber from customers,orders,orderdetails,products where 
+customers.customerNumber=orders.customerNumber and
+orders.orderNumber=orderdetails.orderNumber and 
+orderdetails.productCode=products.productCode group by customers.customerNumber;
+
+SELECT customers.customerName,CONCAT(employees.firstName,employees.lastName) AS EMPLOYEE_NAME FROM customers,employees 
+WHERE customers.salesRepEmployeeNumber=employees.employeeNumber
+
+/* TOTAL PRODUCTS FROM EACH WAREHOUSES */
+SELECT * FROM (SELECT warehouses.warehouseName,COUNT(products.productName) AS TOTAL_COUNT FROM products,warehouses
+WHERE warehouses.warehouseCode=products.warehouseCode GROUP BY warehouses.warehouseName) A ORDER BY TOTAL_COUNT;
+
