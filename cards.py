@@ -93,7 +93,7 @@ if file:
 
 
     if no=='DELETE':
-        de_value=st.sidebar.selectbox('SELECT ONE TO DELETE',('NAME','ADDRESS','WEBSITE','EMAIL','MOBILE','PINCODE','COMPANY_TYPE'))
+        de_value=st.sidebar.selectbox('SELECT ONE TO DELETE',('None','NAME','ADDRESS','WEBSITE','EMAIL','MOBILE','PINCODE','COMPANY_TYPE'))
         if de_value is not 'None':
             try:
                 mycursor.execute(f"update card_details set {de_value.lower()}=NULL where name='{name}' or email='{email}'")
