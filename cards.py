@@ -62,9 +62,9 @@ if file:
         try:
             mycursor.execute(f"insert into card_details values('{name}','{role}','{address}','{website}','{email}','{mobile}','{pincode}','{company_type}')")
             mydb.commit()
-            print('SUCCESSFULLY LOADED')
+            st.sidebar.write('SUCCESSFULLY LOADED')
         except:
-            print('Data already Exists'.upper())
+            st.sidebar.write('Data already Exists'.upper())
     
     val=mycursor.execute(f"select * from card_details WHERE name='{name}'")
     final=mycursor.fetchall()
@@ -79,7 +79,7 @@ if file:
             fin=st.sidebar.text_input(f'ENTER NEW {up_value}')
             if fin:
                 try:
-                    mycursor.execute(f"update card_details set {up_value.lower()}='{fin}'")
+                    mycursor.execute(f"update card_details set {up_value.lower()}='{fin}' where name='{name}' or email='{email}'")
                     mydb.commit()
                     st.sidebar.write('SUCCESSFULLY UPDATED')
                     sh=st.sidebar.checkbox('SHOW')
